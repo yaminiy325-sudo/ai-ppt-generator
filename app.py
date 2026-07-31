@@ -22,7 +22,6 @@ st.sidebar.title("ENTER API-KEYS")
 GOOGLE_API_KEY = st.sidebar.text_input("GOOGLE_API_KEY", type = "password")
 TAVILY_API_KEY = st.sidebar.text_input("TAVILY_API_KEY", type = "password")
 
-
 #============API VALIDATIONS ============
 ALL_API = [GOOGLE_API_KEY,TAVILY_API_KEY]
 
