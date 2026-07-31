@@ -1,4 +1,4 @@
-lanchain
+langchain
 langchain-google-genai
 langchain-groq
 tavily-python
