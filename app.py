@@ -119,6 +119,7 @@ def run_agent(leader_agent, query):
 
 #================step 7:agent call===============
 # leader_agent creation
+if all(ALL_API):
 leader_agent = create_agent(
     model = model,
     tools = [search_latest_info,
@@ -128,10 +129,12 @@ leader_agent = create_agent(
 tab1,tab2,tab3 = st.tab(["Generate image"
                          "fetch latest news",
                          "generate ppt"])
+else:
+  st.info("pass-all-app-keys and return")
 if(user_input) and (agent):
   #tab 1 code
   with tab1:
-    if st,button("generate image",keys = "gen-image"):
+    if st,button("generate image",key= "gen-image"):
      with st.spinner("running agent"):
        try:
          generate_image(user_input)
@@ -139,21 +142,27 @@ if(user_input) and (agent):
          url = f"https://image.pollinations.ai/{img_prompt}"
          time.sleep(4)
          st.input(url)
-
-# tab 1 code:
-with tab 2:
-if st.button("fetch news",keys = "fetch news"):
-  with st.spinner("running agent"):
-    try:
-      prompt ="give multiple news in html card formatfor topic" + user_input
-      response = leader_agent.invoke({"messages":[{'rolr':'user',
-                                                   'content':prompt}]}]
-
-      code = response['messages'][-1].content[-1]['text']
-      st.html(code,width="stretch",
+  # tab 2code:
+  with tab 2:
+    if st.button("fetch news",key = "fetch news"):
+      with st.spinner("running agent"):
+        try:
+          prompt ="give multiple news in html card formatfor topic" + user_input
+          response = leader_agent.invoke({"messages":[{'rolr':'user',
+                                                       'content':prompt}]}]
+                                         code = response['messages'][-1].content[-1]['text']
+          st.html(code,width="stretch",
+                  unsafe_allow_javascript=True)
+  #TAB 3 Code:
+  with tab3:
+  if st.button("Generate PPT", keys = "Gen-PPT"):
+    with st.spinner ("Running Agent"): 
+     try:
+      code = run_agent(leader_agent, user_input)
+      st.html(code, width="stretch",
               unsafe_allow_javascript=True)
 
-    #file save
+     #file save
     with open("ppt.html","w")as f:
       f.write(code)
 
